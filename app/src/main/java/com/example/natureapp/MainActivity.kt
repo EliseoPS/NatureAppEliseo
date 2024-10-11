@@ -6,17 +6,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.natureapp.ui.theme.NatureAppTheme
 import com.example.natureapp.utils.articuloList
 
@@ -27,22 +29,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             NatureAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    natureList(
+
                     )
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @Composable
@@ -56,11 +49,24 @@ fun natureList(){
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            items(articuloList){ art ->
-                CardImage(news = art){
-                    Log.i("News",it.id.toString())
+            items(articuloList){art ->
+                Card(
+                    modifier = Modifier.fillMaxSize()
+                ){
+                    Box(){
+                        Column(){
+                            AsyncImage(
+                                model = art.image, contentDescription = "DESCRIPCOPM",
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Text(text = art.title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Text(text = art.description, fontSize = 12.sp)
+                        }
+                    }
                 }
+
             }
+
         }
 
     }
@@ -70,6 +76,6 @@ fun natureList(){
 @Composable
 fun GreetingPreview() {
     NatureAppTheme {
-        Greeting("Android")
+        natureList()
     }
 }
